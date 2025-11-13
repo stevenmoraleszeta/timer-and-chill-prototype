@@ -110,11 +110,13 @@ export const useAudio = (soundId: string, src: string, defaultVolume: number = 5
   // This effect handles user-initiated play/pause, not automatic restoration
   useEffect(() => {
     if (!audioRef.current) return
-    // Skip if this is the initial mount and we're trying to restore
-    if (isInitialMount.current && savedIsPlaying) {
+    
+    // Skip synchronization during initial mount if we're trying to restore
+    if (isInitialMount.current) {
       return
     }
 
+    // Always sync the audio element with the state
     if (isPlaying && audioRef.current.paused) {
       audioRef.current.play().catch((error) => {
         console.error('[useAudio] Error playing audio:', error)
@@ -124,7 +126,7 @@ export const useAudio = (soundId: string, src: string, defaultVolume: number = 5
     } else if (!isPlaying && !audioRef.current.paused) {
       audioRef.current.pause()
     }
-  }, [isPlaying, savedIsPlaying, soundId])
+  }, [isPlaying, soundId])
 
   const play = useCallback(async () => {
     if (audioRef.current) {
@@ -134,16 +136,18 @@ export const useAudio = (soundId: string, src: string, defaultVolume: number = 5
       } catch (error) {
         console.error('Error playing audio:', error)
         setIsPlaying(false)
+        storage.setSoundPlaying(soundId, false)
       }
     }
-  }, [])
+  }, [soundId])
 
   const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause()
       setIsPlaying(false)
+      storage.setSoundPlaying(soundId, false)
     }
-  }, [])
+  }, [soundId])
 
   const toggle = useCallback(() => {
     if (isPlaying) {

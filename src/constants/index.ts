@@ -87,7 +87,7 @@ export const SOUND_PRESETS = [
     description: 'Cafe ambiance',
     sounds: [
       { id: 'cafe', volume: 70 },
-      { id: 'restaurant', volume: 30 },
+      { id: 'garden', volume: 40 },
     ],
   },
   {
@@ -101,12 +101,12 @@ export const SOUND_PRESETS = [
     ],
   },
   {
-    id: 'relax',
-    name: 'Relax',
-    description: 'Calming atmosphere',
+    id: 'restaurant',
+    name: 'Restaurant',
+    description: 'Restaurant ambiance',
     sounds: [
-      { id: 'forest', volume: 60 },
-      { id: 'rain', volume: 40 },
+      { id: 'restaurant', volume: 70 },
+      { id: 'rain', volume: 30 },
     ],
   },
 ]

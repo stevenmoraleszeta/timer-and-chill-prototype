@@ -44,18 +44,27 @@ export const SoundProvider: React.FC<SoundProviderProps> = ({ children }) => {
   }, [])
 
   const applyPreset = React.useCallback((preset: { id: string; volume: number }[]) => {
-    // Stop all sounds first
-    soundsRef.current.forEach((control) => {
-      control.setPlaying(false)
+    // Get all sound IDs that should be playing
+    const presetSoundIds = new Set(preset.map(p => p.id))
+    
+    // First, stop all sounds that are not in the preset
+    soundsRef.current.forEach((control, id) => {
+      if (!presetSoundIds.has(id)) {
+        control.setPlaying(false)
+      }
     })
 
-    // Apply preset
-    preset.forEach(({ id, volume }) => {
-      const control = soundsRef.current.get(id)
-      if (control) {
-        control.setVolume(volume)
-        control.setPlaying(true)
-      }
+    // Then, apply preset sounds with a small delay to ensure stops are processed
+    requestAnimationFrame(() => {
+      preset.forEach(({ id, volume }) => {
+        const control = soundsRef.current.get(id)
+        if (control) {
+          // Set volume first
+          control.setVolume(volume)
+          // Then start playing
+          control.setPlaying(true)
+        }
+      })
     })
   }, [])
 

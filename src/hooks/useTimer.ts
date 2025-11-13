@@ -132,7 +132,7 @@ export const useTimer = () => {
                 setTimeout(() => setIsRunning(true), 1000)
               }
             } else {
-              showNotification('Timer Complete', '¡El tiempo ha terminado!')
+            showNotification('Timer Complete', '¡El tiempo ha terminado!')
               setTime(INITIAL_TIME)
               setInitialTime(INITIAL_TIME)
               storage.setInitialTime(INITIAL_TIME)

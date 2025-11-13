@@ -25,7 +25,6 @@ export const SoundControls: React.FC = () => {
     <div className={styles.container} role="region" aria-label="Ambient sounds">
       {/* Sound Presets */}
       <div className={styles.presetsSection}>
-        <div className={styles.presetsLabel}>Sound Presets:</div>
         <div className={styles.presetsButtons}>
           {SOUND_PRESETS.map((preset) => (
             <button
