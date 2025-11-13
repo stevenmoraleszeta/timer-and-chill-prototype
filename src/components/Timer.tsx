@@ -99,7 +99,6 @@ export const Timer: React.FC = () => {
       {/* Timer presets */}
       {!isEditing && !isRunning && (
         <div className={styles.presets}>
-          <div className={styles.presetsLabel}>Quick Presets:</div>
           <div className={styles.presetsButtons}>
             {TIMER_PRESETS.map((preset) => (
               <button
@@ -125,26 +124,26 @@ export const Timer: React.FC = () => {
       )}
 
       <div className={styles.timer}>
-        {/* Progress ring */}
+        {/* Progress ring - on the border */}
         <div className={styles.progressRing}>
           <svg className={styles.progressSvg} viewBox="0 0 100 100">
             <circle
               className={styles.progressBackground}
               cx="50"
               cy="50"
-              r="45"
+              r="48"
               fill="none"
-              strokeWidth="8"
+              strokeWidth="4"
             />
             <circle
               className={styles.progressBar}
               cx="50"
               cy="50"
-              r="45"
+              r="48"
               fill="none"
-              strokeWidth="8"
-              strokeDasharray={`${2 * Math.PI * 45}`}
-              strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
+              strokeWidth="4"
+              strokeDasharray={`${2 * Math.PI * 48}`}
+              strokeDashoffset={`${2 * Math.PI * 48 * (1 - progress / 100)}`}
               transform="rotate(-90 50 50)"
             />
           </svg>
