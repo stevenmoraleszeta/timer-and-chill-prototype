@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Sound } from '../types'
 import { storage } from '../utils'
 
 export const useAudio = (soundId: string, src: string, defaultVolume: number = 50) => {
@@ -45,7 +44,7 @@ export const useAudio = (soundId: string, src: string, defaultVolume: number = 5
               .then(() => {
                 setIsPlaying(true)
               })
-              .catch((error) => {
+              .catch(() => {
                 // Autoplay may be blocked by browser policy
                 // This is expected and we'll just keep the state saved for manual play
                 hasTriedRestore.current = false // Allow retry on user interaction

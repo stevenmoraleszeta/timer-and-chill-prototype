@@ -24,7 +24,6 @@ const INITIAL_TIME: Time = { hours: 0, minutes: 0, seconds: 0 }
 export const useTimer = () => {
   // Load initial state from localStorage
   const savedTime = storage.getTimerTime()
-  const savedRunning = storage.getTimerRunning()
   const savedEditing = storage.getTimerEditing()
   const pomodoroState = storage.getPomodoroState()
   const savedInitialTime = storage.getInitialTime()
@@ -37,8 +36,8 @@ export const useTimer = () => {
   const [isPomodoroMode, setIsPomodoroMode] = useState(pomodoroState.isPomodoroMode)
   const [pomodoroSessionCount, setPomodoroSessionCount] = useState(pomodoroState.sessionCount)
   const [isBreak, setIsBreak] = useState(pomodoroState.isBreak)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const intervalRef = useRef<number | null>(null)
+  const timeoutRef = useRef<number | null>(null)
   const isInitialMount = useRef(true)
 
   // Request notification permission on mount
