@@ -2,10 +2,24 @@ import React from 'react'
 import { SoundPlayer } from './SoundPlayer'
 import { SOUNDS, SOUND_PRESETS } from '../constants'
 import { useSoundContext } from '../contexts/SoundContext'
+import { storage } from '../utils'
 import styles from './SoundControls.module.css'
 
 export const SoundControls: React.FC = () => {
   const { applyPreset } = useSoundContext()
+
+  const handlePresetClick = (preset: typeof SOUND_PRESETS[0]) => {
+    // Get saved volumes for all sounds
+    const savedVolumes = storage.getSoundsVolume()
+    
+    // Apply preset but use saved volumes if they exist, otherwise use preset volumes
+    const soundsWithSavedVolumes = preset.sounds.map(({ id, volume: presetVolume }) => ({
+      id,
+      volume: savedVolumes[id] ?? presetVolume, // Use saved volume if exists, otherwise preset volume
+    }))
+    
+    applyPreset(soundsWithSavedVolumes)
+  }
 
   return (
     <div className={styles.container} role="region" aria-label="Ambient sounds">
@@ -17,7 +31,7 @@ export const SoundControls: React.FC = () => {
             <button
               key={preset.id}
               className={styles.presetButton}
-              onClick={() => applyPreset(preset.sounds)}
+              onClick={() => handlePresetClick(preset)}
               aria-label={`Apply ${preset.name} sound preset`}
               title={preset.description}
             >
