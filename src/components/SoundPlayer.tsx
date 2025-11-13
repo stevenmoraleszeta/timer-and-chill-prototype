@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, memo } from 'react'
 import { useAudio } from '../hooks/useAudio'
+import { useSoundContext } from '../contexts/SoundContext'
 import playIcon from '../assets/images/play.png'
 import stopIcon from '../assets/images/detener.png'
 import styles from './SoundPlayer.module.css'
@@ -11,13 +12,36 @@ interface SoundPlayerProps {
   defaultVolume?: number
 }
 
-export const SoundPlayer: React.FC<SoundPlayerProps> = ({
+export const SoundPlayer: React.FC<SoundPlayerProps> = memo(({
   id,
   name,
   audioSrc,
   defaultVolume = 50,
 }) => {
-  const { isPlaying, volume, setVolume, toggle } = useAudio(id, audioSrc, defaultVolume)
+  const { isPlaying, volume, setVolume, toggle, play, pause } = useAudio(id, audioSrc, defaultVolume)
+  const { registerSound, unregisterSound } = useSoundContext()
+
+  // Register this sound with the context
+  useEffect(() => {
+    const setPlaying = (playing: boolean) => {
+      if (playing) {
+        play()
+      } else {
+        pause()
+      }
+    }
+
+    registerSound(id, {
+      setVolume,
+      setPlaying,
+      getVolume: () => volume,
+      getPlaying: () => isPlaying,
+    })
+
+    return () => {
+      unregisterSound(id)
+    }
+  }, [id, setVolume, play, pause, volume, isPlaying, registerSound, unregisterSound])
 
   return (
     <div className={`${styles.container} ${isPlaying ? styles.playing : ''}`}>
@@ -46,5 +70,7 @@ export const SoundPlayer: React.FC<SoundPlayerProps> = ({
       </div>
     </div>
   )
-}
+})
+
+SoundPlayer.displayName = 'SoundPlayer'
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { Header } from './Header'
 import { Timer } from './Timer'
 import { SoundControls } from './SoundControls'
+import { Statistics } from './Statistics'
 import leavesImage from '../assets/images/hojas.png'
 import styles from './Layout.module.css'
 
@@ -15,9 +16,11 @@ export const Layout: React.FC = () => {
           src={leavesImage}
           alt="Decorative leaves"
           aria-hidden="true"
+          loading="lazy"
         />
         <div className={styles.contentWrapper}>
           <Timer />
+          <Statistics />
           <SoundControls />
         </div>
       </main>
