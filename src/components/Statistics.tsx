@@ -20,11 +20,6 @@ export const Statistics: React.FC = () => {
     }
   }, [])
 
-  const formatDate = useCallback((dateString: string): string => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  }, [])
-
   const averageDuration = useMemo(
     () => (stats.totalCompleted > 0 ? Math.round(stats.totalTime / stats.totalCompleted) : 0),
     [stats.totalCompleted, stats.totalTime]
@@ -87,23 +82,6 @@ export const Statistics: React.FC = () => {
               </div>
             )}
           </div>
-
-          {stats.sessions.length > 0 && (
-            <div className={styles.sessionsList}>
-              <h4>Recent Sessions</h4>
-              <div className={styles.sessionsContainer}>
-                {stats.sessions
-                  .slice(-10)
-                  .reverse()
-                  .map((session) => (
-                    <div key={`${session.date}-${session.duration}`} className={styles.sessionItem}>
-                      <div className={styles.sessionDate}>{formatDate(session.date)}</div>
-                      <div className={styles.sessionDuration}>{formatDuration(session.duration)}</div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
