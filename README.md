@@ -36,6 +36,7 @@ A modern, responsive, and professional React timer application with ambient soun
 - **CSS Modules** - Scoped styling
 
 ### Key Libraries
+- **react-icons** - Icon library (Bootstrap Icons) for UI elements
 - **Typed.js** - Animated typing effect for activity display
 - **Web Audio API** - For ambient sound playback
 - **Notifications API** - Browser notifications for timer completion
@@ -117,6 +118,7 @@ timer-and-chill-prototype/
 │   ├── components/         # React components (with CSS Modules)
 │   │   ├── AnimatedText.tsx
 │   │   ├── ErrorBoundary.tsx
+│   │   ├── LanguageToggle.tsx
 │   │   ├── Layout.tsx
 │   │   ├── SoundControls.tsx
 │   │   ├── SoundPlayer.tsx
@@ -125,8 +127,13 @@ timer-and-chill-prototype/
 │   │   └── Timer.tsx
 │   │
 │   ├── contexts/           # React context providers
+│   │   ├── LanguageContext.tsx
 │   │   ├── SoundContext.tsx
 │   │   └── ThemeContext.tsx
+│   │
+│   ├── constants/          # Constants and configuration
+│   │   ├── index.ts
+│   │   └── translations.ts
 │   │
 │   ├── hooks/              # Custom React hooks
 │   │   ├── useAudio.ts
@@ -136,9 +143,6 @@ timer-and-chill-prototype/
 │   │   └── index.ts
 │   │
 │   ├── utils/              # Utility functions
-│   │   └── index.ts
-│   │
-│   ├── constants/          # Constants and configuration
 │   │   └── index.ts
 │   │
 │   ├── App.tsx             # Root component
@@ -151,6 +155,7 @@ timer-and-chill-prototype/
 ├── package.json            # Dependencies and scripts
 ├── tsconfig.json           # TypeScript configuration
 ├── tsconfig.node.json      # TypeScript config for Node.js tools
+├── vercel.json             # Vercel deployment configuration
 ├── vite.config.ts          # Vite configuration
 └── README.md               # This file
 ```
@@ -203,8 +208,17 @@ timer-and-chill-prototype/
 - ✅ Day/Night mode toggle
 - ✅ Smooth color transitions
 - ✅ CSS Custom Properties for dynamic theming
-- ✅ Persistent visual feedback
+- ✅ Persistent theme preference in localStorage
 - ✅ Context-based theme management
+
+### 🌍 Internationalization (i18n)
+- ✅ **Full Bilingual Support**: English and Spanish
+- ✅ **System Language Detection**: Automatically detects browser language
+- ✅ **Language Toggle**: Easy switch between languages via UI button
+- ✅ **Complete Translations**: All UI text, notifications, and labels translated
+- ✅ **Language Persistence**: Selected language saved to localStorage
+- ✅ **Dynamic Language Switching**: Instant UI updates without page reload
+- ✅ **Accessible Language Selector**: ARIA labels and keyboard support
 
 ### ♿ Accessibility Features
 - ✅ ARIA labels and roles for screen readers
@@ -281,6 +295,11 @@ timer-and-chill-prototype/
 - Click the **sun/moon button** in the header to toggle between day and night modes
 - The interface will smoothly transition between themes
 
+### Changing Language
+- Click the **globe button** (🌐) in the header to switch between English and Spanish
+- The app automatically detects your browser's language on first visit
+- Your language preference is saved and will be remembered
+
 ## 🚀 Deployment
 
 ### Recommended Platforms
@@ -295,6 +314,7 @@ vercel
 ```
 - **Pros**: Zero configuration, automatic HTTPS, global CDN, Git integration
 - **Best for**: Quick deployment, personal projects
+- **Note**: This project includes `vercel.json` for optimal configuration
 
 #### Netlify
 ```bash
@@ -357,9 +377,9 @@ netlify deploy --prod
 
 #### State Management
 - **React Hooks** - `useState`, `useEffect`, `useCallback`, `useRef`, `useMemo`
-- **Context API** - Theme management, Sound management
+- **Context API** - Theme management, Sound management, Language management
 - **Custom Hooks** - Timer logic, Audio logic
-- **localStorage** - Persistent state for timer, Pomodoro, statistics, and sound preferences
+- **localStorage** - Persistent state for timer, Pomodoro, statistics, sound preferences, theme, and language
 
 #### Styling Approach
 - **CSS Modules** - Scoped component styles
@@ -383,7 +403,14 @@ This project does not require environment variables as it runs entirely client-s
 TypeScript is configured with strict mode enabled. See `tsconfig.json` for details.
 
 ### Vite Configuration
-Vite is configured with React plugin and path aliases. See `vite.config.ts` for details.
+Vite is configured with:
+- React plugin for JSX/TSX support
+- Path aliases (`@` for `src` directory)
+- Development server on port 3000 with auto-open
+- Production build with source maps
+- Code splitting (vendor chunk for React)
+
+See `vite.config.ts` for details.
 
 ## 🤝 Contributing
 
@@ -415,12 +442,13 @@ See [LICENSE](LICENSE) file for full details.
 - [x] Sound mixing presets
 - [x] Timer history and statistics
 - [x] Pomodoro technique integration
+- [x] Internationalization (i18n) - English and Spanish
 - [ ] Multiple timer sessions
 - [ ] PWA support for offline use
 - [ ] Custom sound uploads
 - [ ] Export timer data
 - [ ] Dark mode based on system preferences
-- [ ] Internationalization (i18n)
+- [ ] Additional language support (French, German, etc.)
 - [ ] Unit and integration tests
 - [ ] E2E testing with Playwright/Cypress
 - [ ] Timer history with detailed logs
@@ -451,6 +479,8 @@ See [LICENSE](LICENSE) file for full details.
 - 💾 **State Persistence**: All settings and state saved to localStorage
 - 📈 **Progress Visualization**: Circular progress ring for timer completion
 - 🎯 **Smart Notifications**: Context-aware browser notifications
+- 🌍 **Internationalization**: Full English/Spanish support with system language detection
+- 🎨 **Modern Icons**: react-icons library for consistent, accessible iconography
 
 ### Version 1.0.0
 - Initial vanilla JavaScript release
