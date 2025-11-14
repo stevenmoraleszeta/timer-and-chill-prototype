@@ -4,6 +4,7 @@ import { SoundControls } from './SoundControls'
 import { Statistics } from './Statistics'
 import { AnimatedText } from './AnimatedText'
 import { ThemeToggle } from './ThemeToggle'
+import { LanguageToggle } from './LanguageToggle'
 import leavesImage from '../assets/images/hojas.png'
 import styles from './Layout.module.css'
 
@@ -13,6 +14,7 @@ export const Layout: React.FC = () => {
       {/* Activity text row - thin bar at the very top */}
       <div className={styles.activityBar}>
         <ThemeToggle />
+        <LanguageToggle />
         <AnimatedText />
       </div>
 

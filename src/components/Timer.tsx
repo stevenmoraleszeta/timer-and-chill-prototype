@@ -1,10 +1,12 @@
 import React, { useEffect, useCallback } from 'react'
 import { useTimer } from '../hooks/useTimer'
 import { TIMER_PRESETS } from '../constants'
+import { useLanguage } from '../contexts/LanguageContext'
 import { BsPlayFill, BsPauseFill, BsPencil, BsCheck } from 'react-icons/bs'
 import styles from './Timer.module.css'
 
 export const Timer: React.FC = () => {
+  const { t } = useLanguage()
   const {
     formattedTime,
     isRunning,
@@ -79,15 +81,15 @@ export const Timer: React.FC = () => {
       {isPomodoroMode && (
         <div className={styles.pomodoroIndicator}>
           <span className={styles.pomodoroLabel}>
-            {isBreak ? 'Break' : 'Work'} - Session {pomodoroSessionCount + (isBreak ? 0 : 1)}
+            {isBreak ? t.timer.break : t.timer.work} - {t.timer.session} {pomodoroSessionCount + (isBreak ? 0 : 1)}
           </span>
           {!isBreak && (
             <button
               className={styles.stopPomodoroButton}
               onClick={stopPomodoro}
-              aria-label="Stop Pomodoro"
+              aria-label={t.timer.stop}
             >
-              Stop
+              {t.timer.stop}
             </button>
           )}
         </div>
@@ -110,9 +112,9 @@ export const Timer: React.FC = () => {
             <button
               className={`${styles.presetButton} ${styles.pomodoroButton}`}
               onClick={startPomodoro}
-              aria-label="Start Pomodoro timer"
+              aria-label={`Start ${t.timer.pomodoro} timer`}
             >
-              🍅 Pomodoro
+              🍅 {t.timer.pomodoro}
             </button>
           )}
         </div>
@@ -202,16 +204,16 @@ export const Timer: React.FC = () => {
         <button
           className={styles.resetButton}
           onClick={reset}
-          aria-label="Reset timer"
-          title="Reset (R)"
+          aria-label={t.timer.reset}
+          title={`${t.timer.reset} (R)`}
         >
           0:00
         </button>
         <button
           className={styles.editButton}
           onClick={toggleEdit}
-          aria-label={isEditing ? 'Save timer' : 'Edit timer'}
-          title="Edit (E)"
+          aria-label={isEditing ? t.timer.save : t.timer.edit}
+          title={`${t.timer.edit} (E)`}
         >
           {isEditing ? (
             <BsCheck className={styles.icon} />
@@ -222,8 +224,8 @@ export const Timer: React.FC = () => {
         <button
           className={styles.playButton}
           onClick={toggle}
-          aria-label={isRunning ? 'Pause timer' : 'Start timer'}
-          title={isRunning ? 'Pause (Space)' : 'Start (Space)'}
+          aria-label={isRunning ? t.timer.pause : t.timer.start}
+          title={isRunning ? `${t.timer.pause} (Space)` : `${t.timer.start} (Space)`}
         >
           {isRunning ? (
             <BsPauseFill className={styles.icon} />

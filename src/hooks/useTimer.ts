@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { Time } from '../types'
+import { Time, Language } from '../types'
 import {
   MAX_HOURS,
   MAX_MINUTES,
@@ -10,6 +10,7 @@ import {
   POMODORO_LONG_BREAK_MINUTES,
   POMODORO_SESSIONS_BEFORE_LONG_BREAK,
 } from '../constants'
+import { translations } from '../constants/translations'
 import {
   formatTime,
   requestNotificationPermission,
@@ -27,6 +28,11 @@ export const useTimer = () => {
   const savedEditing = storage.getTimerEditing()
   const pomodoroState = storage.getPomodoroState()
   const savedInitialTime = storage.getInitialTime()
+  
+  // Get current language for notifications
+  const getLanguage = (): Language => {
+    return storage.getLanguage() || 'en'
+  }
 
   const [time, setTime] = useState<Time>(savedTime || INITIAL_TIME)
   const [initialTime, setInitialTime] = useState<Time>(savedInitialTime || savedTime || INITIAL_TIME)
@@ -110,9 +116,11 @@ export const useTimer = () => {
                 setInitialTime(breakTime)
                 storage.setInitialTime(breakTime)
                 setIsBreak(true)
+                const lang = getLanguage()
+                const t = translations[lang]
                 showNotification(
-                  'Break Time!',
-                  `Take a ${breakMinutes}-minute break. Session ${newSessionCount} completed!`
+                  t.notifications.breakTime,
+                  t.notifications.breakTimeBody(breakMinutes, newSessionCount)
                 )
                 // Auto-start break after a short delay
                 if (timeoutRef.current) {
@@ -131,7 +139,9 @@ export const useTimer = () => {
                   isPomodoroMode: true,
                   isBreak: false,
                 })
-                showNotification('Work Time!', 'Time to focus!')
+                const lang = getLanguage()
+                const t = translations[lang]
+                showNotification(t.notifications.workTime, t.notifications.workTimeBody)
                 // Auto-start work session after a short delay
                 if (timeoutRef.current) {
                   clearTimeout(timeoutRef.current)
@@ -139,7 +149,9 @@ export const useTimer = () => {
                 timeoutRef.current = setTimeout(() => setIsRunning(true), 1000)
               }
             } else {
-              showNotification('Timer Complete', '¡El tiempo ha terminado!')
+              const lang = getLanguage()
+              const t = translations[lang]
+              showNotification(t.notifications.timerComplete, t.notifications.timerCompleteBody)
               setTime(INITIAL_TIME)
               setInitialTime(INITIAL_TIME)
               storage.setInitialTime(INITIAL_TIME)

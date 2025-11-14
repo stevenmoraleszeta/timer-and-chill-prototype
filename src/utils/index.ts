@@ -96,6 +96,7 @@ const STORAGE_KEYS = {
   TIMER_STATISTICS: 'timer-and-chill:timer-statistics',
   POMODORO_STATE: 'timer-and-chill:pomodoro-state',
   INITIAL_TIME: 'timer-and-chill:initial-time',
+  LANGUAGE: 'timer-and-chill:language',
 }
 
 export const storage = {
@@ -365,6 +366,27 @@ export const storage = {
       localStorage.setItem(STORAGE_KEYS.POMODORO_STATE, JSON.stringify(state))
     } catch (error) {
       console.warn('Failed to save Pomodoro state to localStorage:', error)
+    }
+  },
+
+  // Language storage
+  getLanguage: (): 'en' | 'es' | null => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.LANGUAGE)
+      if (stored === 'en' || stored === 'es') {
+        return stored
+      }
+    } catch (error) {
+      console.warn('Failed to load language from localStorage:', error)
+    }
+    return null
+  },
+
+  setLanguage: (language: 'en' | 'es'): void => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.LANGUAGE, language)
+    } catch (error) {
+      console.warn('Failed to save language to localStorage:', error)
     }
   },
 }

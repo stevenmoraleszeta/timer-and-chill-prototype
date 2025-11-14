@@ -13,6 +13,7 @@ export interface Sound {
 }
 
 export type Theme = 'day' | 'night'
+export type Language = 'en' | 'es'
 
 export interface ThemeColors {
   fondo: string
