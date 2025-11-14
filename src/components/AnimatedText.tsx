@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 import Typed from 'typed.js'
-import { ACTIVITIES } from '../constants'
+import { useLanguage } from '../contexts/LanguageContext'
 import styles from './AnimatedText.module.css'
 
 export const AnimatedText: React.FC = () => {
+  const { t } = useLanguage()
   const typedRef = useRef<HTMLSpanElement>(null)
   const typedInstanceRef = useRef<Typed | null>(null)
 
   useEffect(() => {
     if (typedRef.current) {
       typedInstanceRef.current = new Typed(typedRef.current, {
-        strings: ACTIVITIES,
+        strings: t.activities,
         loop: true,
         typeSpeed: 150,
         backSpeed: 150,
@@ -26,7 +27,7 @@ export const AnimatedText: React.FC = () => {
         typedInstanceRef.current.destroy()
       }
     }
-  }, [])
+  }, [t.activities])
 
   return (
     <div className={styles.container} aria-live="polite">

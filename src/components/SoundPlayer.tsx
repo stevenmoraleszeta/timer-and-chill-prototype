@@ -1,6 +1,7 @@
 import React, { useEffect, memo } from 'react'
 import { useAudio } from '../hooks/useAudio'
 import { useSoundContext } from '../contexts/SoundContext'
+import { useLanguage } from '../contexts/LanguageContext'
 import { BsPlayFill, BsPauseFill } from 'react-icons/bs'
 import styles from './SoundPlayer.module.css'
 
@@ -17,6 +18,7 @@ export const SoundPlayer: React.FC<SoundPlayerProps> = memo(({
   audioSrc,
   defaultVolume = 50,
 }) => {
+  const { t } = useLanguage()
   const { isPlaying, volume, setVolume, toggle, play, pause } = useAudio(id, audioSrc, defaultVolume)
   const { registerSound, unregisterSound } = useSoundContext()
 
@@ -53,12 +55,12 @@ export const SoundPlayer: React.FC<SoundPlayerProps> = memo(({
           max="100"
           value={volume}
           onChange={(e) => setVolume(Number(e.target.value))}
-          aria-label={`${name} volume`}
+          aria-label={`${name} ${t.sounds.volume}`}
         />
         <button
           className={`${styles.playButton} ${isPlaying ? styles.playing : ''}`}
           onClick={toggle}
-          aria-label={isPlaying ? `Pause ${name} sound` : `Play ${name} sound`}
+          aria-label={isPlaying ? `${t.sounds.pause} ${name}` : `${t.sounds.play} ${name}`}
         >
           {isPlaying ? (
             <BsPauseFill className={styles.icon} />
